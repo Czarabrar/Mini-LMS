@@ -1,51 +1,63 @@
+import { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
+// Hamburger Icon
+const HamburgerIcon = ({ isOpen }) => (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        {isOpen ? (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        ) : (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        )}
+    </svg>
+)
+
 // Icon components
 const DashboardIcon = () => (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
     </svg>
 )
 
 const CoursesIcon = () => (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
     </svg>
 )
 
 const UsersIcon = () => (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
     </svg>
 )
 
 const BatchIcon = () => (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
     </svg>
 )
 
 const EnrollmentIcon = () => (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
     </svg>
 )
 
 const MaterialsIcon = () => (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
     </svg>
 )
 
 const DiscoverIcon = () => (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
     </svg>
 )
 
 const ProgressIcon = () => (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
     </svg>
 )
@@ -74,9 +86,24 @@ const getNavItems = (role) => {
     return items[role] || []
 }
 
-const Sidebar = () => {
+const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
     const { user } = useAuth()
     const location = useLocation()
+
+    // Load collapsed state from localStorage on mount
+    useEffect(() => {
+        const savedState = localStorage.getItem('sidebarCollapsed')
+        if (savedState !== null) {
+            setIsCollapsed(JSON.parse(savedState))
+        }
+    }, [setIsCollapsed])
+
+    // Save collapsed state to localStorage
+    const toggleSidebar = () => {
+        const newState = !isCollapsed
+        setIsCollapsed(newState)
+        localStorage.setItem('sidebarCollapsed', JSON.stringify(newState))
+    }
 
     if (!user) return null
 
@@ -89,56 +116,83 @@ const Sidebar = () => {
     }
 
     return (
-        <aside className="fixed left-0 top-0 z-40 h-screen w-64 bg-white dark:bg-dark-900 border-r border-dark-200 dark:border-dark-700 flex flex-col">
-            {/* Logo */}
-            <div className="h-16 flex items-center px-6 border-b border-dark-200 dark:border-dark-700">
-                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${roleColors[user.role]} flex items-center justify-center`}>
-                    <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                </div>
-                <span className="ml-3 text-xl font-display font-semibold text-dark-900 dark:text-white">
-                    Mini LMS
-                </span>
-            </div>
+        <>
+            {/* Mobile overlay */}
+            {!isCollapsed && (
+                <div
+                    className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 lg:hidden"
+                    onClick={toggleSidebar}
+                />
+            )}
 
-            {/* Navigation */}
-            <nav className="flex-1 overflow-y-auto px-4 py-6">
-                <ul className="space-y-2">
-                    {navItems.map((item) => (
-                        <li key={item.path}>
-                            <NavLink
-                                to={item.path}
-                                end={item.end}
-                                className={({ isActive }) =>
-                                    `sidebar-link ${isActive ? 'active' : ''}`
-                                }
-                            >
-                                <item.icon />
-                                <span>{item.label}</span>
-                            </NavLink>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-
-            {/* User info */}
-            <div className="p-4 border-t border-dark-200 dark:border-dark-700">
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-dark-50 dark:bg-dark-800">
-                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${roleColors[user.role]} flex items-center justify-center text-white font-medium`}>
-                        {user.name.charAt(0)}
+            <aside
+                className={`fixed left-0 top-0 z-40 h-screen bg-white dark:bg-dark-900 border-r border-dark-200 dark:border-dark-700 flex flex-col transition-all duration-300 ease-in-out ${isCollapsed ? 'w-20' : 'w-64'
+                    }`}
+            >
+                {/* Logo and Toggle */}
+                <div className="h-16 flex items-center justify-between px-4 border-b border-dark-200 dark:border-dark-700">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${roleColors[user.role]} flex items-center justify-center flex-shrink-0`}>
+                            <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                        </div>
+                        {!isCollapsed && (
+                            <span className="text-xl font-display font-semibold text-dark-900 dark:text-white whitespace-nowrap">
+                                Mini LMS
+                            </span>
+                        )}
                     </div>
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-dark-900 dark:text-white truncate">
-                            {user.name}
-                        </p>
-                        <p className="text-xs text-dark-500 dark:text-dark-400 capitalize">
-                            {user.role}
-                        </p>
+                    <button
+                        onClick={toggleSidebar}
+                        className="p-2 rounded-lg hover:bg-dark-100 dark:hover:bg-dark-700 transition-colors flex-shrink-0"
+                        aria-label="Toggle sidebar"
+                    >
+                        <HamburgerIcon isOpen={!isCollapsed} />
+                    </button>
+                </div>
+
+                {/* Navigation */}
+                <nav className="flex-1 overflow-y-auto px-3 py-6">
+                    <ul className="space-y-2">
+                        {navItems.map((item) => (
+                            <li key={item.path}>
+                                <NavLink
+                                    to={item.path}
+                                    end={item.end}
+                                    className={({ isActive }) =>
+                                        `sidebar-link ${isActive ? 'active' : ''} ${isCollapsed ? 'justify-center px-3' : ''}`
+                                    }
+                                    title={isCollapsed ? item.label : undefined}
+                                >
+                                    <item.icon />
+                                    {!isCollapsed && <span>{item.label}</span>}
+                                </NavLink>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+
+                {/* User info */}
+                <div className="p-3 border-t border-dark-200 dark:border-dark-700">
+                    <div className={`flex items-center gap-3 p-3 rounded-xl bg-dark-50 dark:bg-dark-800 ${isCollapsed ? 'justify-center' : ''}`}>
+                        <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${roleColors[user.role]} flex items-center justify-center text-white font-medium flex-shrink-0`}>
+                            {user.name.charAt(0)}
+                        </div>
+                        {!isCollapsed && (
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-dark-900 dark:text-white truncate">
+                                    {user.name}
+                                </p>
+                                <p className="text-xs text-dark-500 dark:text-dark-400 capitalize">
+                                    {user.role}
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
-            </div>
-        </aside>
+            </aside>
+        </>
     )
 }
 

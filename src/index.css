@@ -235,3 +235,173 @@ h6 {
     animation: none;
   }
 }
+
+/* Floating animations for landing page */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(10px, -20px) rotate(2deg);
+  }
+
+  50% {
+    transform: translate(-5px, -40px) rotate(-1deg);
+  }
+
+  75% {
+    transform: translate(-15px, -20px) rotate(1deg);
+  }
+}
+
+@keyframes floatDelayed {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-15px, -30px) rotate(-2deg);
+  }
+
+  50% {
+    transform: translate(10px, -50px) rotate(1deg);
+  }
+
+  75% {
+    transform: translate(20px, -25px) rotate(-1deg);
+  }
+}
+
+@keyframes floatSlow {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(20px, -30px) scale(1.05);
+  }
+
+  66% {
+    transform: translate(-10px, -20px) scale(0.95);
+  }
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatDelayed 10s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-float-slow {
+  animation: floatSlow 12s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* Gradient text animation */
+@keyframes gradientShift {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+}
+
+/* Login page animated gradient background */
+@keyframes gradientBg {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-bg {
+  background-size: 400% 400%;
+  animation: gradientBg 15s ease infinite;
+}
+
+/* Pulse glow animation */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Shine effect for buttons */
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+
+  50%,
+  100% {
+    left: 100%;
+  }
+}
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shine 2s infinite;
+}
+
+/* Modern input focus effect */
+.input-modern {
+  @apply w-full px-4 py-4 rounded-2xl border-2 bg-white/50 dark:bg-dark-800/50 backdrop-blur-sm focus:outline-none transition-all duration-300;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.input-modern:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-light);
+  background: white;
+}
+
+.dark .input-modern:focus {
+  background: theme('colors.dark.800');
+}
