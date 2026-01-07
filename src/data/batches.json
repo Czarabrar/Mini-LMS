@@ -1,0 +1,254 @@
+[
+    {
+        "id": "batch-1",
+        "courseId": "course-1",
+        "name": "React Cohort - January 2024",
+        "instructorIds": [
+            "instructor-1"
+        ],
+        "startDate": "2024-01-15",
+        "endDate": "2024-02-26",
+        "maxLearners": 25,
+        "enrolledLearners": [
+            "learner-1",
+            "learner-2"
+        ],
+        "schedule": {
+            "days": [
+                "Monday",
+                "Wednesday",
+                "Friday"
+            ],
+            "time": "10:00 AM - 12:00 PM",
+            "timezone": "GMT"
+        },
+        "status": "completed",
+        "sessions": [
+            {
+                "id": "session-1-1",
+                "title": "Introduction to React & Setup",
+                "type": "online",
+                "date": "2024-01-15",
+                "duration": 120,
+                "status": "completed",
+                "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+            },
+            {
+                "id": "session-1-2",
+                "title": "Components & Props",
+                "type": "online",
+                "date": "2024-01-17",
+                "duration": 120,
+                "status": "completed",
+                "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+            },
+            {
+                "id": "session-1-3",
+                "title": "State & Lifecycle",
+                "type": "online",
+                "date": "2024-01-19",
+                "duration": 120,
+                "status": "completed",
+                "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+            }
+        ]
+    },
+    {
+        "id": "batch-2",
+        "courseId": "course-1",
+        "name": "React Cohort - March 2024",
+        "instructorIds": [
+            "instructor-1"
+        ],
+        "startDate": "2024-03-01",
+        "endDate": "2024-04-12",
+        "maxLearners": 30,
+        "enrolledLearners": [
+            "learner-3"
+        ],
+        "schedule": {
+            "days": [
+                "Tuesday",
+                "Thursday"
+            ],
+            "time": "2:00 PM - 4:00 PM",
+            "timezone": "GMT"
+        },
+        "status": "ongoing",
+        "sessions": [
+            {
+                "id": "session-2-1",
+                "title": "React Fundamentals Review",
+                "type": "online",
+                "date": "2024-03-01",
+                "duration": 120,
+                "status": "completed",
+                "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+            },
+            {
+                "id": "session-2-2",
+                "title": "Hooks Deep Dive",
+                "type": "online",
+                "date": "2024-03-05",
+                "duration": 120,
+                "status": "in-progress",
+                "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+            },
+            {
+                "id": "session-2-3",
+                "title": "Context API & State Management",
+                "type": "online",
+                "date": "2024-03-08",
+                "duration": 120,
+                "status": "not-started",
+                "videoUrl": null
+            }
+        ]
+    },
+    {
+        "id": "batch-3",
+        "courseId": "course-2",
+        "name": "Data Science Batch A",
+        "instructorIds": [
+            "instructor-2"
+        ],
+        "startDate": "2024-02-15",
+        "endDate": "2024-04-12",
+        "maxLearners": 20,
+        "enrolledLearners": [
+            "learner-1"
+        ],
+        "schedule": {
+            "days": [
+                "Monday",
+                "Wednesday"
+            ],
+            "time": "6:00 PM - 8:00 PM",
+            "timezone": "GMT"
+        },
+        "status": "ongoing",
+        "sessions": [
+            {
+                "id": "session-3-1",
+                "title": "Python for Data Analysis",
+                "type": "online",
+                "date": "2024-02-15",
+                "duration": 120,
+                "status": "completed",
+                "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+            },
+            {
+                "id": "session-3-2",
+                "title": "Pandas & NumPy Workshop",
+                "type": "offline",
+                "date": "2024-02-19",
+                "duration": 180,
+                "status": "completed",
+                "location": "Training Room A, Building 3"
+            },
+            {
+                "id": "session-3-3",
+                "title": "Data Visualization with Matplotlib",
+                "type": "online",
+                "date": "2024-02-22",
+                "duration": 120,
+                "status": "in-progress",
+                "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+            }
+        ]
+    },
+    {
+        "id": "batch-4",
+        "courseId": "course-3",
+        "name": "UI/UX Design - Evening Batch",
+        "instructorIds": [
+            "instructor-3"
+        ],
+        "startDate": "2024-03-10",
+        "endDate": "2024-04-07",
+        "maxLearners": 15,
+        "enrolledLearners": [
+            "learner-2"
+        ],
+        "schedule": {
+            "days": [
+                "Tuesday",
+                "Thursday"
+            ],
+            "time": "5:00 PM - 7:00 PM",
+            "timezone": "GMT"
+        },
+        "status": "upcoming",
+        "sessions": [
+            {
+                "id": "session-4-1",
+                "title": "Design Thinking Workshop",
+                "type": "offline",
+                "date": "2024-03-10",
+                "duration": 180,
+                "status": "not-started",
+                "location": "Design Studio, Building 2"
+            },
+            {
+                "id": "session-4-2",
+                "title": "Wireframing Basics",
+                "type": "offline",
+                "date": "2024-03-14",
+                "duration": 120,
+                "status": "not-started",
+                "location": "Design Studio, Building 2"
+            },
+            {
+                "id": "session-4-3",
+                "title": "Figma Fundamentals",
+                "type": "online",
+                "date": "2024-03-17",
+                "duration": 120,
+                "status": "not-started",
+                "videoUrl": null
+            }
+        ]
+    },
+    {
+        "id": "batch-5",
+        "courseId": "course-4",
+        "name": "Node.js April Cohort",
+        "instructorIds": [
+            "instructor-1"
+        ],
+        "startDate": "2024-04-01",
+        "endDate": "2024-05-06",
+        "maxLearners": 25,
+        "enrolledLearners": [],
+        "schedule": {
+            "days": [
+                "Monday",
+                "Wednesday",
+                "Friday"
+            ],
+            "time": "11:00 AM - 1:00 PM",
+            "timezone": "GMT"
+        },
+        "status": "upcoming",
+        "sessions": [
+            {
+                "id": "session-5-1",
+                "title": "Node.js & npm Essentials",
+                "type": "online",
+                "date": "2024-04-01",
+                "duration": 120,
+                "status": "not-started",
+                "videoUrl": null
+            },
+            {
+                "id": "session-5-2",
+                "title": "Express.js Deep Dive",
+                "type": "online",
+                "date": "2024-04-03",
+                "duration": 120,
+                "status": "not-started",
+                "videoUrl": null
+            }
+        ]
+    }
+]

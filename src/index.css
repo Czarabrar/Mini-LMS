@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Custom Properties for theming */
+:root {
+  --color-primary: theme('colors.admin.600');
+  --color-primary-light: theme('colors.admin.100');
+  --color-primary-dark: theme('colors.admin.700');
+  --color-bg: theme('colors.pastel.cream');
+  --color-surface: #ffffff;
+  --color-text: theme('colors.dark.900');
+  --color-text-muted: theme('colors.dark.500');
+  --color-border: theme('colors.dark.200');
+}
+
+.dark {
+  --color-bg: theme('colors.dark.950');
+  --color-surface: theme('colors.dark.800');
+  --color-text: theme('colors.dark.50');
+  --color-text-muted: theme('colors.dark.400');
+  --color-border: theme('colors.dark.700');
+}
+
+/* Role-based theme variables */
+.theme-admin {
+  --color-primary: theme('colors.admin.600');
+  --color-primary-light: theme('colors.admin.100');
+  --color-primary-dark: theme('colors.admin.700');
+}
+
+.theme-instructor {
+  --color-primary: theme('colors.instructor.500');
+  --color-primary-light: theme('colors.instructor.100');
+  --color-primary-dark: theme('colors.instructor.700');
+}
+
+.theme-learner {
+  --color-primary: theme('colors.learner.500');
+  --color-primary-light: theme('colors.learner.100');
+  --color-primary-dark: theme('colors.learner.700');
+}
+
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Glassmorphism utility classes */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .dark .glass {
+    background: rgba(31, 41, 55, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .card {
+    @apply bg-white dark:bg-dark-800 rounded-2xl shadow-card transition-shadow duration-300;
+  }
+
+  .card:hover {
+    @apply shadow-card-hover;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98];
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-xl font-medium border-2 transition-all duration-300;
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-primary-light);
+  }
+
+  .input {
+    @apply w-full px-4 py-3 rounded-xl border bg-white dark:bg-dark-800 focus:outline-none focus:ring-2 transition-all duration-200;
+    border-color: var(--color-border);
+  }
+
+  .input:focus {
+    border-color: var(--color-primary);
+    --tw-ring-color: var(--color-primary-light);
+  }
+
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-learner-100 text-learner-700 dark:bg-learner-900 dark:text-learner-300;
+  }
+
+  .badge-warning {
+    @apply bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300;
+  }
+
+  .badge-info {
+    @apply bg-admin-100 text-admin-700 dark:bg-admin-900 dark:text-admin-300;
+  }
+
+  .badge-neutral {
+    @apply bg-dark-100 text-dark-700 dark:bg-dark-700 dark:text-dark-300;
+  }
+
+  /* Gradient backgrounds */
+  .gradient-admin {
+    @apply bg-gradient-to-br from-admin-500 to-admin-700;
+  }
+
+  .gradient-instructor {
+    @apply bg-gradient-to-br from-instructor-400 to-instructor-600;
+  }
+
+  .gradient-learner {
+    @apply bg-gradient-to-br from-learner-400 to-learner-600;
+  }
+
+  /* Sidebar styles */
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-dark-600 dark:text-dark-300 hover:bg-dark-100 dark:hover:bg-dark-700 transition-all duration-200;
+  }
+
+  .sidebar-link.active {
+    @apply font-medium;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  .dark .sidebar-link.active {
+    background-color: var(--color-primary);
+    color: white;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.dark.300');
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: theme('colors.dark.600');
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.dark.400');
+}
+
+/* Animation utilities */
+@keyframes staggerSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Only apply opacity:0 when animation is triggered */
+.animate-stagger-cards>* {
+  opacity: 0;
+  animation: staggerSlideUp 0.5s ease-out forwards;
+}
+
+.animate-stagger-cards>*:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.animate-stagger-cards>*:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.animate-stagger-cards>*:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Fallback for no animation - immediate visibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-stagger-cards>* {
+    opacity: 1;
+    animation: none;
+  }
+}

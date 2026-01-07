@@ -1,0 +1,96 @@
+[
+    {
+        "id": "admin-1",
+        "email": "admin@institution.com",
+        "password": "admin123",
+        "name": "Sarah Admin",
+        "role": "admin",
+        "avatar": null,
+        "createdAt": "2024-01-01T00:00:00Z",
+        "lastLogin": null
+    },
+    {
+        "id": "instructor-1",
+        "email": "john@institution.com",
+        "password": "instructor123",
+        "name": "John Smith",
+        "role": "instructor",
+        "type": "internal",
+        "bio": "Senior Software Engineer with 10+ years of experience in web development",
+        "specialization": [
+            "Web Development",
+            "React",
+            "Node.js"
+        ],
+        "avatar": null,
+        "createdAt": "2024-01-15T00:00:00Z",
+        "lastLogin": null
+    },
+    {
+        "id": "instructor-2",
+        "email": "emily.ext@lms-platform.com",
+        "password": "ext2024",
+        "name": "Emily Davis",
+        "role": "instructor",
+        "type": "external",
+        "bio": "Data Science consultant and AI researcher",
+        "specialization": [
+            "Data Science",
+            "Machine Learning",
+            "Python"
+        ],
+        "avatar": null,
+        "createdAt": "2024-02-01T00:00:00Z",
+        "lastLogin": null
+    },
+    {
+        "id": "instructor-3",
+        "email": "mike@institution.com",
+        "password": "instructor123",
+        "name": "Mike Johnson",
+        "role": "instructor",
+        "type": "internal",
+        "bio": "UX Designer and Design Systems specialist",
+        "specialization": [
+            "UI/UX Design",
+            "Figma",
+            "Design Systems"
+        ],
+        "avatar": null,
+        "createdAt": "2024-01-20T00:00:00Z",
+        "lastLogin": null
+    },
+    {
+        "id": "learner-1",
+        "email": "jane@institution.com",
+        "password": "learner123",
+        "name": "Jane Cooper",
+        "role": "learner",
+        "department": "Engineering",
+        "avatar": null,
+        "createdAt": "2024-02-15T00:00:00Z",
+        "lastLogin": null
+    },
+    {
+        "id": "learner-2",
+        "email": "alex@institution.com",
+        "password": "learner123",
+        "name": "Alex Thompson",
+        "role": "learner",
+        "department": "Marketing",
+        "avatar": null,
+        "createdAt": "2024-02-20T00:00:00Z",
+        "lastLogin": null
+    },
+    {
+        "id": "learner-3",
+        "email": "sam@institution.com",
+        "password": "learner123",
+        "name": "Sam Wilson",
+        "role": "learner",
+        "department": "Product",
+        "avatar": null,
+        "createdAt": "2024-03-01T00:00:00Z",
+        "lastLogin": null
+    }
+]

@@ -1,0 +1,57 @@
+[
+    {
+        "id": "material-1",
+        "courseId": "course-1",
+        "batchId": "batch-1",
+        "sessionId": "session-1-1",
+        "title": "React Setup Guide",
+        "type": "pdf",
+        "url": "/materials/react-setup.pdf",
+        "uploadedBy": "instructor-1",
+        "uploadedAt": "2024-01-14T10:00:00Z"
+    },
+    {
+        "id": "material-2",
+        "courseId": "course-1",
+        "batchId": "batch-1",
+        "sessionId": "session-1-2",
+        "title": "Components Best Practices",
+        "type": "video",
+        "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "uploadedBy": "instructor-1",
+        "uploadedAt": "2024-01-16T10:00:00Z"
+    },
+    {
+        "id": "material-3",
+        "courseId": "course-2",
+        "batchId": "batch-3",
+        "sessionId": "session-3-1",
+        "title": "Python Cheat Sheet",
+        "type": "pdf",
+        "url": "/materials/python-cheatsheet.pdf",
+        "uploadedBy": "instructor-2",
+        "uploadedAt": "2024-02-14T10:00:00Z"
+    },
+    {
+        "id": "material-4",
+        "courseId": "course-2",
+        "batchId": "batch-3",
+        "sessionId": "session-3-2",
+        "title": "Pandas Tutorial Series",
+        "type": "video",
+        "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "uploadedBy": "instructor-2",
+        "uploadedAt": "2024-02-18T10:00:00Z"
+    },
+    {
+        "id": "material-5",
+        "courseId": "course-3",
+        "batchId": "batch-4",
+        "sessionId": null,
+        "title": "Design Thinking Workbook",
+        "type": "pdf",
+        "url": "/materials/design-thinking.pdf",
+        "uploadedBy": "instructor-3",
+        "uploadedAt": "2024-03-08T10:00:00Z"
+    }
+]

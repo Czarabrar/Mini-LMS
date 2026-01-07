@@ -1,0 +1,69 @@
+[
+    {
+        "id": "enrollment-1",
+        "learnerId": "learner-1",
+        "courseId": "course-1",
+        "batchId": "batch-1",
+        "enrolledAt": "2024-01-10T10:00:00Z",
+        "progress": {
+            "completedSessions": [
+                "session-1-1",
+                "session-1-2",
+                "session-1-3"
+            ],
+            "status": "completed"
+        }
+    },
+    {
+        "id": "enrollment-2",
+        "learnerId": "learner-2",
+        "courseId": "course-1",
+        "batchId": "batch-1",
+        "enrolledAt": "2024-01-12T10:00:00Z",
+        "progress": {
+            "completedSessions": [
+                "session-1-1",
+                "session-1-2"
+            ],
+            "status": "in-progress"
+        }
+    },
+    {
+        "id": "enrollment-3",
+        "learnerId": "learner-3",
+        "courseId": "course-1",
+        "batchId": "batch-2",
+        "enrolledAt": "2024-02-28T10:00:00Z",
+        "progress": {
+            "completedSessions": [
+                "session-2-1"
+            ],
+            "status": "in-progress"
+        }
+    },
+    {
+        "id": "enrollment-4",
+        "learnerId": "learner-1",
+        "courseId": "course-2",
+        "batchId": "batch-3",
+        "enrolledAt": "2024-02-10T10:00:00Z",
+        "progress": {
+            "completedSessions": [
+                "session-3-1",
+                "session-3-2"
+            ],
+            "status": "in-progress"
+        }
+    },
+    {
+        "id": "enrollment-5",
+        "learnerId": "learner-2",
+        "courseId": "course-3",
+        "batchId": "batch-4",
+        "enrolledAt": "2024-03-05T10:00:00Z",
+        "progress": {
+            "completedSessions": [],
+            "status": "not-started"
+        }
+    }
+]
