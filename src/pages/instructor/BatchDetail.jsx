@@ -339,8 +339,8 @@ const InstructorBatchDetail = () => {
                             <Card key={session.id} className="p-5">
                                 <div className="flex items-start gap-4">
                                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold shadow-lg ${session.type === 'online'
-                                            ? 'bg-gradient-to-br from-blue-500 to-blue-600'
-                                            : 'bg-gradient-to-br from-orange-500 to-orange-600'
+                                        ? 'bg-gradient-to-br from-blue-500 to-blue-600'
+                                        : 'bg-gradient-to-br from-orange-500 to-orange-600'
                                         }`}>
                                         {session.type === 'online' ? (
                                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -379,8 +379,8 @@ const InstructorBatchDetail = () => {
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-3">
                                                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${session.videoUrl
-                                                                ? 'bg-gradient-to-br from-red-500 to-red-600'
-                                                                : 'bg-dark-200 dark:bg-dark-600'
+                                                            ? 'bg-gradient-to-br from-red-500 to-red-600'
+                                                            : 'bg-dark-200 dark:bg-dark-600'
                                                             }`}>
                                                             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
@@ -416,8 +416,8 @@ const InstructorBatchDetail = () => {
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-3">
                                                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${session.attendance
-                                                                ? 'bg-gradient-to-br from-learner-500 to-learner-600'
-                                                                : 'bg-dark-200 dark:bg-dark-600'
+                                                            ? 'bg-gradient-to-br from-learner-500 to-learner-600'
+                                                            : 'bg-dark-200 dark:bg-dark-600'
                                                             }`}>
                                                             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
@@ -473,24 +473,105 @@ const InstructorBatchDetail = () => {
 
             {/* Learners Tab */}
             {activeTab === 'learners' && (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     {learners.length === 0 ? (
                         <EmptyState title="No learners" description="No learners have enrolled in this batch yet" />
                     ) : (
-                        learners.map((learner) => (
-                            <Card key={learner.id} className="p-4">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-learner-500 flex items-center justify-center text-white font-medium">
-                                        {learner.name.charAt(0)}
+                        <>
+                            {/* Tree Visualization */}
+                            <Card className="p-6">
+                                <h3 className="text-lg font-semibold text-dark-900 dark:text-white mb-4 flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-instructor-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                    Enrollment Overview
+                                </h3>
+
+                                {/* Tree Structure Visualization */}
+                                <div className="relative">
+                                    {/* Root Node - Batch */}
+                                    <div className="flex flex-col items-center">
+                                        <div className="bg-gradient-to-br from-instructor-500 to-instructor-600 text-white px-6 py-3 rounded-2xl shadow-lg font-semibold text-center">
+                                            <div className="text-sm opacity-80">Batch</div>
+                                            <div className="text-lg">{batch.name}</div>
+                                            <div className="text-xs opacity-70 mt-1">{learners.length} Learners</div>
+                                        </div>
+
+                                        {/* Connector Line */}
+                                        <div className="w-0.5 h-8 bg-gradient-to-b from-instructor-500 to-learner-400"></div>
+
+                                        {/* Department Groups */}
+                                        <div className="flex flex-wrap justify-center gap-4 relative">
+                                            {/* Horizontal connector */}
+                                            <div className="absolute top-0 left-1/4 right-1/4 h-0.5 bg-learner-300 dark:bg-learner-600"></div>
+
+                                            {Object.entries(
+                                                learners.reduce((acc, learner) => {
+                                                    const dept = learner.department || 'Unassigned'
+                                                    if (!acc[dept]) acc[dept] = []
+                                                    acc[dept].push(learner)
+                                                    return acc
+                                                }, {})
+                                            ).map(([dept, deptLearners], deptIndex) => (
+                                                <div key={dept} className="flex flex-col items-center">
+                                                    {/* Vertical connector to department */}
+                                                    <div className="w-0.5 h-4 bg-learner-300 dark:bg-learner-600"></div>
+
+                                                    {/* Department Node */}
+                                                    <div className="bg-gradient-to-br from-learner-400 to-learner-500 text-white px-4 py-2 rounded-xl shadow-md text-center min-w-[120px]">
+                                                        <div className="text-xs opacity-80">Department</div>
+                                                        <div className="font-semibold">{dept}</div>
+                                                        <div className="text-xs opacity-70 mt-0.5">{deptLearners.length} students</div>
+                                                    </div>
+
+                                                    {/* Connector to learners */}
+                                                    <div className="w-0.5 h-4 bg-learner-200 dark:bg-learner-700"></div>
+
+                                                    {/* Learner Nodes */}
+                                                    <div className="flex flex-wrap justify-center gap-2 max-w-xs">
+                                                        {deptLearners.map((learner, idx) => (
+                                                            <div
+                                                                key={learner.id}
+                                                                className="group relative"
+                                                            >
+                                                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-admin-400 to-admin-500 flex items-center justify-center text-white font-medium shadow-md hover:scale-110 transition-transform cursor-pointer border-2 border-white dark:border-dark-700">
+                                                                    {learner.name.charAt(0)}
+                                                                </div>
+                                                                {/* Tooltip */}
+                                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-dark-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                                                                    <div className="font-semibold">{learner.name}</div>
+                                                                    <div className="text-dark-300">{learner.email}</div>
+                                                                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-dark-900"></div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
-                                    <div className="flex-1">
-                                        <p className="font-medium text-dark-900 dark:text-white">{learner.name}</p>
-                                        <p className="text-sm text-dark-500">{learner.email}</p>
-                                    </div>
-                                    <span className="text-sm text-dark-500">{learner.department || 'N/A'}</span>
                                 </div>
                             </Card>
-                        ))
+
+                            {/* Learner List */}
+                            <div className="space-y-3">
+                                <h3 className="text-sm font-medium text-dark-500 uppercase tracking-wider">All Learners</h3>
+                                {learners.map((learner) => (
+                                    <Card key={learner.id} className="p-4">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-10 h-10 rounded-full bg-learner-500 flex items-center justify-center text-white font-medium">
+                                                {learner.name.charAt(0)}
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-medium text-dark-900 dark:text-white">{learner.name}</p>
+                                                <p className="text-sm text-dark-500">{learner.email}</p>
+                                            </div>
+                                            <span className="text-sm text-dark-500">{learner.department || 'N/A'}</span>
+                                        </div>
+                                    </Card>
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             )}
@@ -619,13 +700,13 @@ const InstructorBatchDetail = () => {
                                 key={learner.id}
                                 onClick={() => toggleAttendance(learner.id)}
                                 className={`flex items-center gap-4 p-3 rounded-xl cursor-pointer transition-all ${attendance[learner.id]
-                                        ? 'bg-learner-50 dark:bg-learner-900/30 border-2 border-learner-500'
-                                        : 'bg-dark-50 dark:bg-dark-700/50 border-2 border-transparent hover:border-dark-200'
+                                    ? 'bg-learner-50 dark:bg-learner-900/30 border-2 border-learner-500'
+                                    : 'bg-dark-50 dark:bg-dark-700/50 border-2 border-transparent hover:border-dark-200'
                                     }`}
                             >
                                 <div className={`w-6 h-6 rounded-md flex items-center justify-center ${attendance[learner.id]
-                                        ? 'bg-learner-500 text-white'
-                                        : 'bg-white dark:bg-dark-600 border-2 border-dark-300'
+                                    ? 'bg-learner-500 text-white'
+                                    : 'bg-white dark:bg-dark-600 border-2 border-dark-300'
                                     }`}>
                                     {attendance[learner.id] && (
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

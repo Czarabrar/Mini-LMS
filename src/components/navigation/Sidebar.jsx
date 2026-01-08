@@ -139,13 +139,13 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
                         </div>
                         {!isCollapsed && (
                             <span className="text-xl font-display font-semibold text-dark-900 dark:text-white whitespace-nowrap">
-                                Mini LMS
+                                iLearn
                             </span>
                         )}
                     </div>
                     <button
                         onClick={toggleSidebar}
-                        className="p-2 rounded-lg hover:bg-dark-100 dark:hover:bg-dark-700 transition-colors flex-shrink-0"
+                        className="p-2 rounded-lg bg-white dark:bg-dark-900 hover:bg-dark-100 dark:hover:bg-dark-700 transition-colors flex-shrink-0 border border-dark-200 dark:border-dark-700"
                         aria-label="Toggle sidebar"
                     >
                         <HamburgerIcon isOpen={!isCollapsed} />

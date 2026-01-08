@@ -1,5 +1,8 @@
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import { useAuth } from '../context/AuthContext'
+import Lottie from 'lottie-react'
 
 // Modern Icon Components
 const AdminIcon = () => (
@@ -38,10 +41,11 @@ const ChartIcon = () => (
     </svg>
 )
 
-const RoleCard = ({ role, title, description, icon: Icon, gradientFrom, gradientTo, accentColor }) => (
-    <Link
-        to={`/login/${role}`}
-        className="group relative overflow-hidden rounded-3xl p-8 bg-white/80 dark:bg-dark-800/80 backdrop-blur-xl border border-white/50 dark:border-dark-700/50 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02]"
+const RoleCard = ({ role, title, description, icon: Icon, lottieUrl, gradientFrom, gradientTo, accentColor, onClick, isSelected, lottieData }) => (
+    <div
+        onClick={onClick}
+        className={`group relative overflow-hidden rounded-3xl p-8 bg-white/80 dark:bg-dark-800/80 backdrop-blur-xl border border-white/50 dark:border-dark-700/50 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02] cursor-pointer h-full flex flex-col ${isSelected ? 'ring-2 ring-offset-2' : ''}`}
+        style={isSelected ? { '--tw-ring-color': accentColor } : {}}
     >
         {/* Gradient overlay on hover */}
         <div
@@ -49,21 +53,29 @@ const RoleCard = ({ role, title, description, icon: Icon, gradientFrom, gradient
             style={{ background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})` }}
         />
 
-        {/* Icon */}
+        {/* Lottie Animation or Icon */}
         <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg"
+            className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 transform group-hover:scale-110 transition-all duration-500 shadow-lg overflow-hidden"
             style={{ background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})` }}
         >
-            <div className="text-white">
-                <Icon />
-            </div>
+            {lottieData ? (
+                <Lottie
+                    animationData={lottieData}
+                    loop={true}
+                    className="w-14 h-14"
+                />
+            ) : (
+                <div className="text-white">
+                    <Icon />
+                </div>
+            )}
         </div>
 
         {/* Content */}
         <h3 className="text-xl font-display font-bold text-gray-900 dark:text-white mb-3">
             {title}
         </h3>
-        <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm leading-relaxed">
+        <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm leading-relaxed flex-1">
             {description}
         </p>
 
@@ -83,7 +95,7 @@ const RoleCard = ({ role, title, description, icon: Icon, gradientFrom, gradient
             className="absolute -bottom-2 -right-2 w-24 h-24 rounded-full opacity-20 blur-2xl group-hover:opacity-40 transition-opacity duration-500"
             style={{ background: gradientFrom }}
         />
-    </Link>
+    </div>
 )
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
@@ -100,8 +112,49 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
     </div>
 )
 
+// Demo credentials for each role
+const demoCredentials = {
+    admin: { email: 'admin@institution.com', password: 'admin123' },
+    instructor: { email: 'john@institution.com', password: 'instructor123' },
+    learner: { email: 'jane@institution.com', password: 'learner123' },
+}
+
+// Lottie animation URLs from LottieFiles CDN
+const lottieUrls = {
+    admin: 'https://assets2.lottiefiles.com/packages/lf20_v4isjbj5.json', // Dashboard/admin animation
+    instructor: 'https://assets5.lottiefiles.com/packages/lf20_t24tpvcu.json', // Teaching/education animation
+    learner: 'https://assets2.lottiefiles.com/packages/lf20_xvrofzfk.json', // Learning animation
+}
+
 const Landing = () => {
     const { isDark, toggleTheme } = useTheme()
+    const { login, isLoading } = useAuth()
+    const navigate = useNavigate()
+
+    const [selectedRole, setSelectedRole] = useState(null)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
+    const [lottieData, setLottieData] = useState({})
+
+    // Fetch Lottie animations on mount
+    useEffect(() => {
+        const fetchLottieData = async () => {
+            const data = {}
+            for (const [role, url] of Object.entries(lottieUrls)) {
+                try {
+                    const response = await fetch(url)
+                    if (response.ok) {
+                        data[role] = await response.json()
+                    }
+                } catch (err) {
+                    console.error(`Failed to load Lottie for ${role}:`, err)
+                }
+            }
+            setLottieData(data)
+        }
+        fetchLottieData()
+    }, [])
 
     const roles = [
         {
@@ -132,6 +185,38 @@ const Landing = () => {
             icon: LearnerIcon,
         },
     ]
+
+    const handleRoleSelect = (role) => {
+        setSelectedRole(role)
+        setEmail(demoCredentials[role.role].email)
+        setPassword(demoCredentials[role.role].password)
+        setError('')
+    }
+
+    const handleBack = () => {
+        setSelectedRole(null)
+        setEmail('')
+        setPassword('')
+        setError('')
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setError('')
+
+        const result = await login(email, password, selectedRole.role)
+
+        if (result.success) {
+            const paths = {
+                admin: '/admin',
+                instructor: '/instructor',
+                learner: '/learner'
+            }
+            navigate(paths[selectedRole.role])
+        } else {
+            setError(result.error)
+        }
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-pastel-cream via-white to-pastel-sky dark:from-dark-950 dark:via-dark-900 dark:to-dark-950 overflow-hidden relative">
@@ -165,97 +250,284 @@ const Landing = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-6 py-16 relative">
-                {/* Hero Section */}
-                <div className="text-center mb-20 animate-fade-in">
-                    <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/80 dark:bg-dark-800/80 backdrop-blur-xl shadow-lg border border-white/50 dark:border-dark-700/50 mb-8">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-admin-500 via-instructor-500 to-learner-500 flex items-center justify-center shadow-lg">
-                            <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
+                {/* Hero Section - Only show when no role is selected */}
+                {!selectedRole && (
+                    <div className="text-center mb-20 animate-fade-in">
+                        <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/80 dark:bg-dark-800/80 backdrop-blur-xl shadow-lg border border-white/50 dark:border-dark-700/50 mb-8">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-admin-500 via-instructor-500 to-learner-500 flex items-center justify-center shadow-lg">
+                                <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </div>
+                            <span className="text-lg font-display font-semibold text-dark-900 dark:text-white">iLearn</span>
                         </div>
-                        <span className="text-lg font-display font-semibold text-dark-900 dark:text-white">Mini LMS</span>
+
+                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-dark-900 dark:text-white mb-6 leading-tight">
+                            Your Learning
+                            <br />
+                            <span className="bg-gradient-to-r from-admin-600 via-instructor-500 to-learner-500 bg-clip-text text-transparent animate-gradient">
+                                Management Platform
+                            </span>
+                        </h1>
+
+                        <p className="text-lg md:text-xl text-dark-500 dark:text-dark-400 max-w-2xl mx-auto leading-relaxed">
+                            A lightweight, modern learning management system for training institutions.
+                            Manage courses, instructors, and learners all in one place.
+                        </p>
                     </div>
+                )}
 
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-dark-900 dark:text-white mb-6 leading-tight">
-                        Your Learning
-                        <br />
-                        <span className="bg-gradient-to-r from-admin-600 via-instructor-500 to-learner-500 bg-clip-text text-transparent animate-gradient">
-                            Management Platform
-                        </span>
-                    </h1>
+                {/* Role Selection View */}
+                {!selectedRole && (
+                    <>
+                        {/* Role cards */}
+                        <div className="grid md:grid-cols-3 gap-8 mb-20 animate-stagger-cards items-stretch">
+                            {roles.map((role) => (
+                                <RoleCard
+                                    key={role.role}
+                                    {...role}
+                                    lottieData={lottieData[role.role]}
+                                    onClick={() => handleRoleSelect(role)}
+                                />
+                            ))}
+                        </div>
 
-                    <p className="text-lg md:text-xl text-dark-500 dark:text-dark-400 max-w-2xl mx-auto leading-relaxed">
-                        A lightweight, modern learning management system for training institutions.
-                        Manage courses, instructors, and learners all in one place.
-                    </p>
-                </div>
-
-                {/* Role cards */}
-                <div className="grid md:grid-cols-3 gap-8 mb-20 animate-stagger-cards">
-                    {roles.map((role) => (
-                        <RoleCard key={role.role} {...role} />
-                    ))}
-                </div>
-
-                {/* B2B Enterprise Section */}
-                <div className="mb-20 animate-fade-in">
-                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-admin-600 via-admin-700 to-instructor-600 p-1">
-                        <div className="bg-white/95 dark:bg-dark-900/95 backdrop-blur-xl rounded-[22px] p-8 md:p-12">
-                            <div className="flex flex-col md:flex-row items-center gap-8">
-                                <div className="flex-1">
-                                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-admin-100 dark:bg-admin-900/50 text-admin-700 dark:text-admin-300 text-sm font-medium mb-4">
-                                        <BuildingIcon />
-                                        <span>Enterprise Ready</span>
-                                    </div>
-                                    <h2 className="text-3xl md:text-4xl font-display font-bold text-dark-900 dark:text-white mb-4">
-                                        Corporate B2B Solutions
-                                    </h2>
-                                    <p className="text-dark-500 dark:text-dark-400 mb-6 max-w-lg">
-                                        Scale your training programs across your organization. Custom branding,
-                                        bulk enrollments, dedicated support, and advanced analytics for enterprise clients.
-                                    </p>
-                                    <div className="flex flex-wrap gap-4">
-                                        <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-admin-600 to-admin-700 text-white font-semibold hover:shadow-lg hover:shadow-admin-500/30 transition-all transform hover:scale-105">
-                                            Contact Sales
-                                        </button>
-                                        <button className="px-6 py-3 rounded-xl border-2 border-admin-200 dark:border-admin-700 text-admin-700 dark:text-admin-300 font-semibold hover:bg-admin-50 dark:hover:bg-admin-900/30 transition-all">
-                                            Learn More
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="hidden md:block">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FeatureCard
-                                            icon={BuildingIcon}
-                                            title="Custom Branding"
-                                            description="Your logo, your colors"
-                                        />
-                                        <FeatureCard
-                                            icon={ShieldIcon}
-                                            title="SSO Integration"
-                                            description="Enterprise security"
-                                        />
-                                        <FeatureCard
-                                            icon={ChartIcon}
-                                            title="Analytics"
-                                            description="Advanced insights"
-                                        />
-                                        <FeatureCard
-                                            icon={AdminIcon}
-                                            title="Bulk Management"
-                                            description="Scale with ease"
-                                        />
+                        {/* B2B Enterprise Section */}
+                        <div className="mb-20 animate-fade-in">
+                            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-admin-600 via-admin-700 to-instructor-600 p-1">
+                                <div className="bg-white/95 dark:bg-dark-900/95 backdrop-blur-xl rounded-[22px] p-8 md:p-12">
+                                    <div className="flex flex-col md:flex-row items-center gap-8">
+                                        <div className="flex-1">
+                                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-admin-100 dark:bg-admin-900/50 text-admin-700 dark:text-admin-300 text-sm font-medium mb-4">
+                                                <BuildingIcon />
+                                                <span>Enterprise Ready</span>
+                                            </div>
+                                            <h2 className="text-3xl md:text-4xl font-display font-bold text-dark-900 dark:text-white mb-4">
+                                                Corporate B2B Solutions
+                                            </h2>
+                                            <p className="text-dark-500 dark:text-dark-400 mb-6 max-w-lg">
+                                                Scale your training programs across your organization. Custom branding,
+                                                bulk enrollments, dedicated support, and advanced analytics for enterprise clients.
+                                            </p>
+                                            <div className="flex flex-wrap gap-4">
+                                                <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-admin-600 to-admin-700 text-white font-semibold hover:shadow-lg hover:shadow-admin-500/30 transition-all transform hover:scale-105">
+                                                    Contact Sales
+                                                </button>
+                                                <button className="px-6 py-3 rounded-xl border-2 border-admin-200 dark:border-admin-700 text-admin-700 dark:text-admin-300 font-semibold hover:bg-admin-50 dark:hover:bg-admin-900/30 transition-all">
+                                                    Learn More
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="hidden md:block">
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <FeatureCard
+                                                    icon={BuildingIcon}
+                                                    title="Custom Branding"
+                                                    description="Your logo, your colors"
+                                                />
+                                                <FeatureCard
+                                                    icon={ShieldIcon}
+                                                    title="SSO Integration"
+                                                    description="Enterprise security"
+                                                />
+                                                <FeatureCard
+                                                    icon={ChartIcon}
+                                                    title="Analytics"
+                                                    description="Advanced insights"
+                                                />
+                                                <FeatureCard
+                                                    icon={AdminIcon}
+                                                    title="Bulk Management"
+                                                    description="Scale with ease"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                {/* Footer */}
-                <div className="text-center text-sm text-dark-400">
-                    <p>Built for demos, hackathons, and POCs • Modern Learning Experience</p>
-                </div>
+                        {/* Footer */}
+                        <div className="text-center text-sm text-dark-400">
+                            <p>Built for demos, hackathons, and POCs • Modern Learning Experience</p>
+                        </div>
+                    </>
+                )}
+
+                {/* Login View - Split Screen */}
+                {selectedRole && (
+                    <div className="min-h-[80vh] flex items-center justify-center">
+                        <div className="w-full max-w-5xl grid md:grid-cols-2 gap-8 items-stretch">
+                            {/* Left Panel - Role Info */}
+                            <div className="animate-slide-in-left">
+                                <div
+                                    className="h-full rounded-3xl p-8 flex flex-col justify-center relative overflow-hidden"
+                                    style={{ background: `linear-gradient(135deg, ${selectedRole.gradientFrom}, ${selectedRole.gradientTo})` }}
+                                >
+                                    {/* Decorative elements */}
+                                    <div className="absolute top-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
+                                    <div className="absolute bottom-10 left-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
+
+                                    <div className="relative z-10">
+                                        <div className="w-24 h-24 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center mb-8 shadow-lg overflow-hidden">
+                                            {lottieData[selectedRole.role] ? (
+                                                <Lottie
+                                                    animationData={lottieData[selectedRole.role]}
+                                                    loop={true}
+                                                    className="w-16 h-16"
+                                                />
+                                            ) : (
+                                                <div className="text-white">
+                                                    <selectedRole.icon />
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <h2 className="text-4xl font-display font-bold text-white mb-4">
+                                            {selectedRole.title}
+                                        </h2>
+                                        <p className="text-white/80 text-lg leading-relaxed mb-8">
+                                            {selectedRole.description}
+                                        </p>
+
+                                        <button
+                                            onClick={handleBack}
+                                            className="inline-flex items-center gap-2 text-white/90 hover:text-white transition-colors group"
+                                        >
+                                            <svg className="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                            </svg>
+                                            <span>Choose different role</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Right Panel - Login Form */}
+                            <div className="animate-slide-in-right">
+                                <div className="h-full bg-white/90 dark:bg-dark-900/90 backdrop-blur-2xl rounded-3xl shadow-2xl p-8 border border-white/50 flex flex-col justify-center">
+                                    <div className="mb-8">
+                                        <h3 className="text-3xl font-display font-bold text-dark-900 dark:text-white mb-2">
+                                            Welcome Back
+                                        </h3>
+                                        <p className="text-dark-500 dark:text-dark-400">
+                                            Sign in to your {selectedRole.title} account
+                                        </p>
+                                    </div>
+
+                                    {/* Demo credentials notice */}
+                                    <div
+                                        className="rounded-2xl p-4 mb-6 border"
+                                        style={{
+                                            backgroundColor: `${selectedRole.gradientFrom}10`,
+                                            borderColor: `${selectedRole.gradientFrom}30`
+                                        }}
+                                    >
+                                        <div className="flex items-start gap-3">
+                                            <div
+                                                className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                                                style={{ backgroundColor: selectedRole.accentColor }}
+                                            >
+                                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-medium" style={{ color: selectedRole.accentColor }}>Demo Credentials</p>
+                                                <p className="text-xs text-dark-500 mt-1">
+                                                    Email: {demoCredentials[selectedRole.role].email}<br />
+                                                    Password: {demoCredentials[selectedRole.role].password}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Form */}
+                                    <form onSubmit={handleSubmit} className="space-y-5">
+                                        <div>
+                                            <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-2">
+                                                Email Address
+                                            </label>
+                                            <div className="relative">
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-400">
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                                    </svg>
+                                                </div>
+                                                <input
+                                                    type="email"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-dark-200 dark:border-dark-700 bg-white dark:bg-dark-800 focus:outline-none transition-all"
+                                                    style={{
+                                                        '--tw-ring-color': `${selectedRole.accentColor}40`,
+                                                    }}
+                                                    onFocus={(e) => {
+                                                        e.target.style.borderColor = selectedRole.accentColor
+                                                        e.target.style.boxShadow = `0 0 0 4px ${selectedRole.accentColor}20`
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        e.target.style.borderColor = ''
+                                                        e.target.style.boxShadow = ''
+                                                    }}
+                                                    placeholder={demoCredentials[selectedRole.role].email}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-2">
+                                                Password
+                                            </label>
+                                            <div className="relative">
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-400">
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                                    </svg>
+                                                </div>
+                                                <input
+                                                    type="password"
+                                                    value={password}
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-dark-200 dark:border-dark-700 bg-white dark:bg-dark-800 focus:outline-none transition-all"
+                                                    onFocus={(e) => {
+                                                        e.target.style.borderColor = selectedRole.accentColor
+                                                        e.target.style.boxShadow = `0 0 0 4px ${selectedRole.accentColor}20`
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        e.target.style.borderColor = ''
+                                                        e.target.style.boxShadow = ''
+                                                    }}
+                                                    placeholder="••••••••"
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {error && (
+                                            <div className="p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                                                <p className="text-sm text-red-600 dark:text-red-400 text-center">{error}</p>
+                                            </div>
+                                        )}
+
+                                        <button
+                                            type="submit"
+                                            disabled={isLoading}
+                                            className="w-full py-4 rounded-xl text-white font-semibold hover:shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed btn-shine"
+                                            style={{
+                                                background: `linear-gradient(to right, ${selectedRole.gradientFrom}, ${selectedRole.gradientTo})`,
+                                                boxShadow: `0 4px 14px 0 ${selectedRole.accentColor}40`
+                                            }}
+                                        >
+                                            {isLoading ? 'Signing in...' : 'Sign In'}
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

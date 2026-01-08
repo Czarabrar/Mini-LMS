@@ -156,7 +156,7 @@ const LearnerProgress = () => {
                                                 }}
                                                 formatter={(value) => [`${value}%`, 'Progress']}
                                             />
-                                            <Bar dataKey="progress" fill="#10b981" radius={[0, 4, 4, 0]} />
+                                            <Bar dataKey="progress" fill="#10b981" radius={[0, 4, 4, 0]} barSize={16} />
                                         </BarChart>
                                     </ResponsiveContainer>
                                 ) : (

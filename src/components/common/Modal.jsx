@@ -40,12 +40,12 @@ const Modal = ({
         <div className="fixed inset-0 z-50 overflow-y-auto">
             {/* Backdrop */}
             <div
-                className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity animate-fade-in"
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
                 onClick={onClose}
             />
 
             {/* Modal */}
-            <div className="flex min-h-full items-center justify-center p-4">
+            <div className="fixed inset-0 z-10 flex min-h-full items-center justify-center p-4">
                 <div
                     ref={modalRef}
                     className={`relative w-full ${sizes[size]} bg-white dark:bg-dark-800 rounded-2xl shadow-glass-lg animate-scale-in`}
