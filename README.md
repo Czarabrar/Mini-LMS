@@ -68,56 +68,62 @@ This project demonstrates how AI can accelerate full-stack product development f
 
 ### 🏠 Landing
 <p align="center">
-  <img src="src/assets/screenshots/Landing_dark.png" width="250"/>
-  <img src="src/assets/screenshots/Landing_light.png" width="250"/>
+  <img src="src/assets/screenshots/Landing_dark.png" width="800"/>
+  <br/><br/>
+  <img src="src/assets/screenshots/Landing_light.png" width="800"/>
 </p>
 
 ---
 
 ### 🔐 Authentication
 <p align="center">
-  <img src="src/assets/screenshots/InstitutionalAdmin_login.png" width="250"/>
-  <img src="src/assets/screenshots/instructor_login.png" width="250"/>
-  <img src="src/assets/screenshots/learners_login.png" width="250"/>
+  <img src="src/assets/screenshots/InstitutionalAdmin_login.png" width="700"/>
+  <br/><br/>
+  <img src="src/assets/screenshots/instructor_login.png" width="700"/>
+  <br/><br/>
+  <img src="src/assets/screenshots/learners_login.png" width="700"/>
 </p>
 
 ---
 
 ### ⚙️ Admin Panel
 <p align="center">
-  <img src="src/assets/screenshots/admin_dashboard.png" width="250"/>
-  <img src="src/assets/screenshots/admin_courselist.png" width="250"/>
-  <img src="src/assets/screenshots/admin_instructorlist.png" width="250"/>
+  <img src="src/assets/screenshots/admin_dashboard.png" width="800"/>
+  <br/><br/>
+  <img src="src/assets/screenshots/admin_courselist.png" width="800"/>
+  <br/><br/>
+  <img src="src/assets/screenshots/admin_instructorlist.png" width="800"/>
 </p>
 
 <p align="center">
-  <img src="src/assets/screenshots/admin_batchlist.png" width="250"/>
-  <img src="src/assets/screenshots/admin_enrollments.png" width="250"/>
+  <img src="src/assets/screenshots/admin_batchlist.png" width="800"/>
+  <br/><br/>
+  <img src="src/assets/screenshots/admin_enrollments.png" width="800"/>
 </p>
 
 ---
 
 ### 👨‍🏫 Instructor Panel
 <p align="center">
-  <img src="src/assets/screenshots/instructor_dashboard.png" width="250"/>
-  <img src="src/assets/screenshots/instructor_materials.png" width="250"/>
+  <img src="src/assets/screenshots/instructor_dashboard.png" width="800"/>
+  <br/><br/>
+  <img src="src/assets/screenshots/instructor_materials.png" width="800"/>
 </p>
 
 ---
 
 ### 🎓 Learner Experience
 <p align="center">
-  <img src="src/assets/screenshots/learners_dashboard.png" width="250"/>
-  <img src="src/assets/screenshots/learnears_courses.png" width="250"/>
-  <img src="src/assets/screenshots/learners_courseplay.png" width="250"/>
+  <img src="src/assets/screenshots/learners_dashboard.png" width="800"/>
+  <br/><br/>
+  <img src="src/assets/screenshots/learnears_courses.png" width="800"/>
+  <br/><br/>
+  <img src="src/assets/screenshots/learners_courseplay.png" width="800"/>
 </p>
 
 <p align="center">
-  <img src="src/assets/screenshots/learners_progress.png" width="250"/>
+  <img src="src/assets/screenshots/learners_progress.png" width="800"/>
 </p>
-
----
-
 ## 🤝 Contributors
 
 - 👨‍💻 Abrar Ahmed  
